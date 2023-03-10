@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Morse Online</title>
   <style type="text/css">
     body * {
@@ -13,10 +13,16 @@
 
     body {
       padding: 0 20px 32px 20px;
+      font-size: 15px;
     }
 
     input {
       margin-bottom: 8px;
+      height: 32px;
+      font-size: 15px;
+      font-weight: bold;
+      width: 100px;
+      margin-left: 4px;
     }
 
     textarea {
@@ -24,13 +30,35 @@
       max-width: 100%;
       display: block;
       margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    button {
+      /* -webkit-appearance: none; */
+      padding: 8px 20px;
+      border-radius: 16px;
+      letter-spacing: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid #efefef;
+      transition: all 0.25s ease-out;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    button:hover {
+      opacity: 0.8;
     }
 
     .result {
+      max-width: 100%;
       font-weight: bold;
       font-size: 24px;
       margin: 0;
       white-space: pre-wrap;
+      margin-top: 12px;
+      word-break: break-all;
+      line-height: 1.4;
     }
   </style>
 </head>
@@ -44,7 +72,7 @@
   <h3>要加密的文本</h3>
   <textarea rows="6" class="encode-area"></textarea>
   <button class="encode-btn">加密</button>
-  <pre class="result encode-result"></pre>
+  <div class="result encode-result"></div>
 
   <br />
   <br />
@@ -53,7 +81,7 @@
   <h3>要解密的文本</h3>
   <textarea rows="6" class="decode-area"></textarea>
   <button class="decode-btn">解密</button>
-  <pre class="result decode-result"></pre>
+  <div class="result decode-result"></div>
 
   <script src="./moser.js"></script>
   <script>
