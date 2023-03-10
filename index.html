@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morse Online</title>
+  <style type="text/css">
+    body * {
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 0 20px 32px 20px;
+    }
+
+    input {
+      margin-bottom: 8px;
+    }
+
+    textarea {
+      width: 600px;
+      max-width: 100%;
+      display: block;
+      margin-bottom: 24px;
+    }
+
+    .result {
+      font-weight: bold;
+      font-size: 24px;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h3>加密字典</h3>
+  <label>滴(dit)</label><input class="dit-input" value="." />
+  <label>答(dah)</label><input class="dah-input" value="-" />
+
+  <h3>要加密的文本</h3>
+  <textarea rows="6" class="encode-area"></textarea>
+  <button class="encode-btn">加密</button>
+  <pre class="result encode-result"></pre>
+
+  <br />
+  <br />
+  <br />
+
+  <h3>要解密的文本</h3>
+  <textarea rows="6" class="decode-area"></textarea>
+  <button class="decode-btn">解密</button>
+  <pre class="result decode-result"></pre>
+
+  <script src="./moser.js"></script>
+  <script>
+
+    const ditInput = document.querySelector('.dit-input')
+    const dahInput = document.querySelector('.dah-input')
+
+    const encodeBtn = document.querySelector('.encode-btn')
+    const encodeArea = document.querySelector('.encode-area')
+    const encodeResult = document.querySelector('.encode-result')
+
+    const decodeBtn = document.querySelector('.decode-btn')
+    const decodeArea = document.querySelector('.decode-area')
+    const decodeResult = document.querySelector('.decode-result')
+
+
+    encodeBtn.addEventListener('click', () => {
+      const dict = {
+        dit: ditInput.value,
+        dah: dahInput.value
+      }
+      const text = encodeArea.value
+      const result = encode(text, dict)
+
+      encodeResult.innerHTML = result
+
+    })
+
+    decodeBtn.addEventListener('click', () => {
+      const dict = {
+        dit: ditInput.value,
+        dah: dahInput.value
+      }
+      const text = decodeArea.value
+      const result = decode(text, dict)
+
+      decodeResult.innerHTML = result
+
+    })
+  </script>
+</body>
+
+</html>
