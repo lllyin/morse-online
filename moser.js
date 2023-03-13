@@ -1,8 +1,27 @@
+// 字母
 // A	.-	B	-...	C	-.-.	D	-..	E	.	F	..-.
 // G	--.	H	....	I	..	J	.---	K	-.-	L	.-..
 // M	--	N	-.	O	---	P	.--.	Q	--.-	R	.-.
 // S	...	T	-	U	..-	V	...-	W	.--	X	-..-
 // Y	-.--	Z	--..
+// 数字
+// 0	-----	1	.----	2	..---	3	...--	4	....-	5	.....
+// 6	-....	7	--...	8	---..	9	----.
+// 标点
+// .	.-.-.-	,	--..--	?	..--..	'	.----.	!	-.-.--	/	-..-.
+// (	-.--.	)	-.--.-	&	.-...	:	---...	;	-.-.-.	=	-...-
+// +	.-.-.	-	-....-	_	..--.-	"	.-..-.	$	...-..-	@	.--.-.
+// ¿	..-.-	¡	--...-
+
+const reverseMap = (map) => {
+  return Object.keys(map).reduce((obj, letter) => {
+    const code = map[letter];
+
+    obj[code] = letter;
+    return obj;
+  }, {});
+};
+
 const DIT = '.';
 const DAH = '-';
 
@@ -34,46 +53,63 @@ const LETTER_CODE_MAP = {
   Y: '-.--',
   Z: '--..',
 };
-const CODE_LETTER_MAP = Object.keys(LETTER_CODE_MAP).reduce((obj, letter) => {
-  const code = LETTER_CODE_MAP[letter];
+const CODE_LETTER_MAP = reverseMap(LETTER_CODE_MAP);
 
-  obj[code] = letter;
-  return obj;
-}, {});
-
-const LETTER_MAP = {
-  A: [DIT, DAH],
-  B: [],
-  C: [],
-  D: [],
-  E: [],
-  F: [],
-  G: [],
-  H: [],
-  I: [],
-  J: [],
-  K: [],
-  L: [],
-  M: [],
-  N: [],
-  O: [],
-  P: [],
-  Q: [],
-  R: [],
-  S: [],
-  T: [],
-  U: [],
-  V: [],
-  W: [],
-  X: [],
-  Y: [],
-  Z: [],
+const NUM_CODE_MAP = {
+  0: '-----',
+  1: '.----',
+  2: '..---',
+  3: '...--',
+  4: '....-',
+  5: '.....',
+  6: '-....',
+  7: '--...',
+  8: '---..',
+  9: '----.',
 };
+const CODE_NUM_MAP = reverseMap(NUM_CODE_MAP);
+
+const POINT_CODE_MAP = {
+  '.': '.-.-.-',
+  ',': '--..--',
+  '?': '..--..',
+  "'": '.----.',
+  '!': '-.-.--',
+  '/': '-..-.',
+  '(': '-.--.',
+  ')': '-.--.-',
+  '&': '.-...',
+  ':': '---...',
+  ';': '-.-.-.',
+  '=': '-...-',
+  '+': '.-.-.',
+  '-': '-....-',
+  _: '..--.-',
+  '"': '.-..-.',
+  $: '...-..-',
+  '@': '.--.-.',
+  '¿': '..-.-',
+  '¡': '--...-',
+};
+const CODE_POINT_MAP = reverseMap(POINT_CODE_MAP);
+
+const CHAR_CODE_MAP = Object.assign(
+  {},
+  LETTER_CODE_MAP,
+  NUM_CODE_MAP,
+  POINT_CODE_MAP
+);
+const CODE_CHAR_MAP = Object.assign(
+  {},
+  CODE_LETTER_MAP,
+  CODE_NUM_MAP,
+  CODE_POINT_MAP
+);
 
 function splitMoseWord(str) {
-  const spaceReg = /\s{2,}/g;
+  const spaceReg = /(\s{2,})/g;
   if (spaceReg.test(str)) {
-    return str.split(spaceReg);
+    return str.replace(spaceReg, ',$1,').split(',');
   } else {
     str.split(' ');
   }
@@ -81,7 +117,7 @@ function splitMoseWord(str) {
 
 function letter2morse(letter, dict, options = {}) {
   const { padEnd = '    ', space = 1 } = options;
-  let codes = LETTER_CODE_MAP[letter.toUpperCase()];
+  let codes = CHAR_CODE_MAP[letter.toUpperCase()];
 
   if (codes) {
     codes = codes.split('').join(''.padEnd(space)) + padEnd;
@@ -104,12 +140,14 @@ function morse2letter(code, dict) {
     [dict.dah]: DAH,
   };
 
+  if (trimCode.length === 0) return code;
+
   const nCode = trimCode
     .split('')
     .map((char) => map[char] || char)
     .join('');
 
-  return CODE_LETTER_MAP[nCode] || nCode;
+  return CODE_CHAR_MAP[nCode] || code;
 }
 
 function toRows(str) {
@@ -153,17 +191,27 @@ function encode(
   return result;
 }
 
-const str = `．━ ━ ━        ．．        ．．━        
-━ ━        ．．        ━ ．        ━ ━ ．
-`;
-const str1 = 'JIU MING';
-const str2 = `  JIU MING   JIU MING
-  JIU MING`;
-const str3 = 'HAHA TODAY IS IMPORTANT';
+const DEBUG = false;
+if (DEBUG) {
+  console.log(
+    Object.keys(CHAR_CODE_MAP).length,
+    Object.keys(CODE_CHAR_MAP).length
+  );
+  const str = `．━ ━ ━        ．．        ．．━        
+  ━ ━        ．．        ━ ．        ━ ━ ．
+  `;
+  const str1 = 'JIU MING';
+  const str2 = `  JIU MING   JIU MING
+    JIU MING`;
+  const str3 = 'HAHA TODAY IS IMPORTANT';
 
-// const dict = { dit: '．', dah: '━' };
-const dict = { dit: '滴', dah: '答' };
-const secret = encode(str3, dict, { space: 0, padEnd: '  ' });
+  // const dict = { dit: '．', dah: '━' };
+  const dict = { dit: '滴', dah: '答' };
+  const secret = encode(str3, dict, { space: 0, padEnd: '  ' });
 
-console.log(secret, '\n\n解密\n', decode(secret, dict));
-// console.log(decode('。～～～ 。。 。。～    ～～ 。。 ～。 ～～。', { dit: '.', dah: '-' }));
+  console.log(secret, '\n\n解密\n', decode(secret, dict));
+  // console.log(decode('。～～～ 。。 。。～    ～～ 。。 ～。 ～～。', { dit: '.', dah: '-' }));
+  // console.log(
+  //   '答滴滴  滴答  答滴答答   滴滴'.replace(/(\s{2,})/g, ',$1,').split(',')
+  // );
+}

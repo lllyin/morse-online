@@ -7,13 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Morse Online</title>
   <style type="text/css">
-    body * {
+    * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 14px;
     }
 
     body {
-      padding: 0 20px 32px 20px;
-      font-size: 15px;
+      width: 100%;
+      font-size: 1em;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    h3 {
+      margin: 10px 0;
     }
 
     input {
@@ -31,6 +43,7 @@
       display: block;
       margin-bottom: 24px;
       font-size: 15px;
+      padding: 4px 6px;
     }
 
     button {
@@ -50,6 +63,13 @@
       opacity: 0.8;
     }
 
+    .container {
+      position: relative;
+      padding: 20px 20px 100px 20px;
+      min-height: 100vh;
+      overflow: auto;
+    }
+
     .result {
       max-width: 100%;
       font-weight: bold;
@@ -59,29 +79,69 @@
       margin-top: 12px;
       word-break: break-all;
       line-height: 1.4;
+      user-select: text;
+    }
+
+    .desc {
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+      font-size: 13px;
+      color: #555;
+      font-weight: 400;
+      padding: 8px 20px;
+    }
+
+    .desc .title {
+      font-weight: 500;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    table td,
+    table th {
+      border: 1px solid #dbdbdb;
+      padding: 0.5em 0.75em;
+      vertical-align: top;
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
 
-  <h3>加密字典</h3>
-  <label>滴(dit)</label><input class="dit-input" value="." />
-  <label>答(dah)</label><input class="dah-input" value="-" />
+    <h3>加密字典</h3>
+    <label>滴(dit)</label><input class="dit-input" value="." />
+    <label>答(dah)</label><input class="dah-input" value="-" />
 
-  <h3>要加密的文本</h3>
-  <textarea rows="6" class="encode-area"></textarea>
-  <button class="encode-btn">加密</button>
-  <div class="result encode-result"></div>
+    <br />
+    <br />
 
-  <br />
-  <br />
-  <br />
+    <h3>要加密的文本</h3>
+    <textarea rows="6" class="encode-area"></textarea>
+    <button class="encode-btn">加密</button>
+    <div class="result encode-result"></div>
 
-  <h3>要解密的文本</h3>
-  <textarea rows="6" class="decode-area"></textarea>
-  <button class="decode-btn">解密</button>
-  <div class="result decode-result"></div>
+    <br />
+    <br />
+
+    <h3>要解密的文本</h3>
+    <textarea rows="6" class="decode-area"></textarea>
+    <button class="decode-btn">解密</button>
+    <div class="result decode-result"></div>
+
+    <div class="desc">
+      <div class="title">Tips:</div>
+      <small>
+        只支持26个英文字母、10个数字及常用英文标点摩斯编码。字典可以将摩斯密码中的点(滴)、画(答)替换为自己喜欢的任意符号。问题反馈，<a
+          href="https://github.com/lllyin/morse-online/issues" target="_blank">点击这里</a>
+      </small>
+    </div>
+  </div>
+
 
   <script src="./moser.js"></script>
   <script>
