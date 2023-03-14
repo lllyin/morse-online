@@ -142,8 +142,7 @@ function morse2letter(code, dict) {
 
   if (trimCode.length === 0) return code;
 
-  const nCode = trimCode
-    .split('')
+  const nCode = Array.from(trimCode)
     .map((char) => map[char] || char)
     .join('');
 
@@ -206,7 +205,8 @@ if (DEBUG) {
   const str3 = 'HAHA TODAY IS IMPORTANT';
 
   // const dict = { dit: '．', dah: '━' };
-  const dict = { dit: '滴', dah: '答' };
+  // const dict = { dit: '滴', dah: '答' };
+  const dict = { dit: '😊', dah: '😠' };
   const secret = encode(str3, dict, { space: 0, padEnd: '  ' });
 
   console.log(secret, '\n\n解密\n', decode(secret, dict));
