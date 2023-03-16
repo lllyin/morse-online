@@ -111,7 +111,7 @@ function splitMoseWord(str) {
   if (spaceReg.test(str)) {
     return str.replace(spaceReg, ',$1,').split(',');
   } else {
-    str.split(' ');
+    return str.split(' ');
   }
 }
 
@@ -190,7 +190,7 @@ function encode(
   return result;
 }
 
-const DEBUG = false;
+const DEBUG = true;
 if (DEBUG) {
   console.log(
     Object.keys(CHAR_CODE_MAP).length,
@@ -207,7 +207,7 @@ if (DEBUG) {
   // const dict = { dit: '．', dah: '━' };
   // const dict = { dit: '滴', dah: '答' };
   const dict = { dit: '😊', dah: '😠' };
-  const secret = encode(str3, dict, { space: 0, padEnd: '  ' });
+  const secret = encode(str3, dict, { space: 0, padEnd: ' ' });
 
   console.log(secret, '\n\n解密\n', decode(secret, dict));
   // console.log(decode('。～～～ 。。 。。～    ～～ 。。 ～。 ～～。', { dit: '.', dah: '-' }));
